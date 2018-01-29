@@ -1,24 +1,32 @@
-import { Component, Inject } from '@nestjs/common';
+import { Component, Inject, NotFoundException } from '@nestjs/common';
 import { USERS_TOKEN } from './users.constants';
 import { User } from './interfaces/user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from './entities/user.entity';
+import { Repository } from 'typeorm/repository/Repository';
 
 @Component()
 export class UsersService {
-  private readonly users: User[] = require('./../../fixtures/users.json');
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly usersRepository: Repository<UserEntity>,
+  ) {}
 
-  findAll(): User[] {
-    return this.users;
+  async findAll(): Promise<UserEntity[]> {
+    return await this.usersRepository.find();
   }
 
-  findOneById(id: number): User | null {
-    return this.users.find(item => item.id === id);
-  }
-
-  create(userDto: CreateUserDto): User {
-    const randomId = Math.floor(Math.random() * 1000);
-    const user = { ...userDto, id: randomId };
-    this.users.push(user);
+  async findOneById(id: number): Promise<UserEntity | null> {
+    const user = await this.usersRepository.findOne({ id });
+    if (!user) {
+      throw new NotFoundException();
+    }
     return user;
+  }
+
+  async create(userDto: CreateUserDto): Promise<UserEntity> {
+    const user = new UserEntity(userDto);
+    return await this.usersRepository.save(user);
   }
 }
