@@ -1,0 +1,40 @@
+version: "3"
+
+volumes:
+  mysql_data:
+
+networks:
+  backend:
+
+services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: "nest"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - backend
+    restart: always
+
+  api:
+    build: .
+    ports:
+      - 3000:3000
+      - 8080:8080
+    networks:
+      - backend
+    depends_on:
+      - mysql
+    env_file:
+      - dev.env
+    volumes:
+      - "./src:/usr/src/app/src"
+      - "./migrations:/usr/src/app/migrations"
+      - "./fixtures:/usr/src/app/fixtures"

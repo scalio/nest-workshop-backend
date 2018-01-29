@@ -1,0 +1,14 @@
+{
+  "ext": "js ts json",
+  "exec": "ts-node src/main.ts",
+  "legacyWatch": true,
+  "ignore": [
+    ".git",
+    "node_modules"
+  ],
+  "watch": [
+    "src",
+    "migrations",
+    "fixtures"
+  ]
+}
