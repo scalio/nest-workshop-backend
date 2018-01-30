@@ -7,11 +7,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CryptoModule } from '../crypto/crypto.module';
 import { MeController } from './me.controller';
+import { MeService } from './me.service';
+import { BuildingsModule } from '../buildings/buildings.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), CryptoModule],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity]),
+    CryptoModule,
+    BuildingsModule,
+  ],
   controllers: [UsersController, MeController],
-  components: [UsersService],
+  components: [UsersService, MeService],
   exports: [UsersService],
 })
 export class UsersModule {}
