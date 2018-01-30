@@ -1,15 +1,15 @@
 import {
-  Get,
   Controller,
+  Get,
   Param,
-  Post,
+  ParseIntPipe,
   Body,
+  Post,
   HttpCode,
   HttpStatus,
-  ParseIntPipe,
 } from '@nestjs/common';
-import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
+import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
@@ -17,12 +17,15 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserEntity[]> {
     return await this.usersService.findAll();
   }
 
   @Get(':id')
-  async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<User> {
+  async findOneById(
+    @Param('id', new ParseIntPipe())
+    id: number,
+  ): Promise<UserEntity> {
     return await this.usersService.findOne({ id });
   }
 

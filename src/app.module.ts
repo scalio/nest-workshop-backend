@@ -1,22 +1,19 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { MigrationsModule } from './migrations/migrations.module';
 import { AuthModule } from './auth/auth.module';
 import { ResourcesModule } from './resources/resources.module';
 import { BuildingsModule } from './buildings/buildings.module';
-import { MigrationsModule } from './migrations/migrations.module';
 
 @Module({
   imports: [
-    UsersModule,
     TypeOrmModule.forRoot(),
-    AuthModule,
+    MigrationsModule,
     ResourcesModule,
     BuildingsModule,
-    MigrationsModule,
+    AuthModule,
+    UsersModule,
   ],
-  components: [],
-  controllers: [],
-  exports: [],
 })
 export class AppModule {}

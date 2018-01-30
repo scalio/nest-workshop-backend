@@ -1,11 +1,10 @@
-import { Component, Inject, NotFoundException } from '@nestjs/common';
-import { USERS_TOKEN } from './users.constants';
-import { User } from './interfaces/user.interface';
-import { CreateUserDto } from './dto/create-user.dto';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Component, NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
-import { Repository } from 'typeorm/repository/Repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
 import { CryptoService } from '../crypto/crypto.service';
+import { ResourceWithAmount } from '../resources/interfaces/resource-with-amount.interface';
 
 @Component()
 export class UsersService {
@@ -28,10 +27,14 @@ export class UsersService {
   }
 
   async create(userDto: CreateUserDto): Promise<UserEntity> {
-    const user = new UserEntity({
-      ...userDto,
-      password: await this.cryptoService.hash(userDto.password),
-    });
+    const password = await this.cryptoService.hash(userDto.password);
+    const user = new UserEntity({ ...userDto, password });
     return await this.usersRepository.save(user);
+  }
+
+  async addResourceToUserById(userId: number, resourceWithAmount: ResourceWithAmount) {
+    const user = await this.usersRepository.findOneById(userId);
+    await user.addResource(resourceWithAmount);
+    await this.usersRepository.save(user);
   }
 }

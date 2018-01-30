@@ -8,8 +8,9 @@ import {
 } from 'typeorm';
 import { BuildingEntity } from '../../buildings/entities/building.entity';
 import { UserResourceEntity } from './user-resource.entity';
-import { mapUserBuildings, mapUserResources } from '../utils/users.utils';
 import { Transform } from 'class-transformer';
+import { mapUserResources, mapUserBuildings } from '../utils/users.utils';
+import { ResourceWithAmount } from '../../resources/interfaces/resource-with-amount.interface';
 
 @Entity()
 export class UserEntity {
@@ -52,5 +53,11 @@ export class UserEntity {
 
   findResourceById(id: number): UserResourceEntity | undefined {
     return this.resources.find(({ resource }) => resource.id === id);
+  }
+  
+  addResource(resourceWithAmount: ResourceWithAmount) {
+    const { resource, amount } = resourceWithAmount;
+    const res = this.resources.find(item => item.id === resource.id);
+    res && res.add(amount);
   }
 }

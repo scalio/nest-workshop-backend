@@ -1,9 +1,10 @@
 import * as cors from 'cors';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+//import { SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 import { WrapInterceptor } from './common/interceptors/wrap.interceptor';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,5 +14,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor(), new WrapInterceptor());
 
   await app.listen(3000);
+
+  //const document = SwaggerModule.createDocument(app, {});
+  //SwaggerModule.setup('/api', app, document);
 }
 bootstrap();
