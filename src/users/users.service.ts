@@ -19,7 +19,7 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  async findOne(conditions: Partial<UserEntity>): Promise<UserEntity | null> {
+  async findOne(conditions: Partial<UserEntity>): Promise<UserEntity> {
     const user = await this.usersRepository.findOne(conditions);
     if (!user) {
       throw new NotFoundException();

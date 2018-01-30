@@ -7,13 +7,13 @@ import {
 } from '@nestjs/common';
 
 import { AuthController } from './auth.controller';
-import { UsersController } from '../users/users.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { authProviders } from './auth.providers';
 import { PASSPORT } from './auth.constants';
 import { CryptoModule } from '../crypto/crypto.module';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
+import { MeController } from '../users/me.controller';
 
 @Module({
   imports: [CryptoModule, UsersModule],
@@ -27,6 +27,6 @@ export class AuthModule implements NestModule {
   configure(consumer: MiddlewaresConsumer) {
     consumer
       .apply(this.passport.authenticate('jwt', { session: false }))
-      .forRoutes(UsersController);
+      .forRoutes(MeController);
   }
 }

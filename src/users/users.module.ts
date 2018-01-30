@@ -6,10 +6,11 @@ import { USERS_TOKEN } from './users.constants';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CryptoModule } from '../crypto/crypto.module';
+import { MeController } from './me.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), CryptoModule],
-  controllers: [UsersController],
+  controllers: [UsersController, MeController],
   components: [UsersService],
   exports: [UsersService],
 })
