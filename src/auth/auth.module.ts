@@ -4,6 +4,7 @@ import {
   MiddlewaresConsumer,
   NestModule,
   Inject,
+  RequestMethod,
 } from '@nestjs/common';
 
 import { AuthController } from './auth.controller';
@@ -27,6 +28,9 @@ export class AuthModule implements NestModule {
   configure(consumer: MiddlewaresConsumer) {
     consumer
       .apply(this.passport.authenticate('jwt', { session: false }))
-      .forRoutes(MeController);
+      .forRoutes(
+        MeController,
+        { path: '/users/:id', method: RequestMethod.GET },
+      );
   }
 }
