@@ -39,7 +39,7 @@ export class AuthService {
     const { password, username } = loginUserDto;
     const user = await this.usersService.findOne({ username });
     const isValid = await this.cryptoService.compare(password, user.password);
-    console.log(loginUserDto, user, isValid);
+
     if (!isValid) {
       throw new UnauthorizedException();
     }
