@@ -6,6 +6,7 @@ import {
   Body,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
@@ -21,8 +22,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOneById(@Param('id') id: string): Promise<User> {
-    return await this.usersService.findOne({ id: +id });
+  async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<User> {
+    return await this.usersService.findOne({ id });
   }
 
   @Post()

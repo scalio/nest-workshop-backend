@@ -6,7 +6,6 @@ import {
   Inject,
   RequestMethod,
 } from '@nestjs/common';
-
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { authProviders } from './auth.providers';

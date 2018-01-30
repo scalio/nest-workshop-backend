@@ -1,3 +1,5 @@
+import { IsInt } from 'class-validator';
+
 export class BuildByIdDto {
-  readonly id: number;
+  @IsInt() readonly id: number;
 }

@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { BuildingEntity } from '../../buildings/entities/building.entity';
 import { UserResourceEntity } from './user-resource.entity';
+import { mapUserBuildings, mapUserResources } from '../utils/users.utils';
+import { Transform } from 'class-transformer';
 
 @Entity()
 export class UserEntity {
@@ -17,10 +19,12 @@ export class UserEntity {
 
   @Column() password: string;
 
+  @Transform(mapUserBuildings)
   @JoinTable()
   @ManyToMany(type => BuildingEntity, { eager: true })
   buildings: BuildingEntity[];
 
+  @Transform(mapUserResources)
   @OneToMany(type => UserResourceEntity, userResource => userResource.user, {
     cascadeInsert: true,
     cascadeUpdate: true,
