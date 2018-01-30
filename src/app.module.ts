@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ResourcesModule } from './resources/resources.module';
 import { BuildingsModule } from './buildings/buildings.module';
+import { MigrationsModule } from './migrations/migrations.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { BuildingsModule } from './buildings/buildings.module';
     AuthModule,
     ResourcesModule,
     BuildingsModule,
+    MigrationsModule,
   ],
   components: [],
   controllers: [],
