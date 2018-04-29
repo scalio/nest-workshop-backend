@@ -1,4 +1,4 @@
-import { Component, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,7 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { CryptoService } from '../crypto/crypto.service';
 import { ResourceWithAmount } from '../resources/interfaces/resource-with-amount.interface';
 
-@Component()
+@Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
@@ -32,8 +32,11 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async addResourceToUserById(userId: number, resourceWithAmount: ResourceWithAmount) {
-    const user = await this.usersRepository.findOneById(userId);
+  async addResourceToUserById(
+    userId: number,
+    resourceWithAmount: ResourceWithAmount,
+  ) {
+    const user = await this.usersRepository.findOne({ id: userId });
     await user.addResource(resourceWithAmount);
     await this.usersRepository.save(user);
   }

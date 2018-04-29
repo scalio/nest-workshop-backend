@@ -1,10 +1,10 @@
-import { Component, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { BuildingsService } from '../buildings/buildings.service';
 import { Repository } from 'typeorm/repository/Repository';
 import { InjectRepository } from '@nestjs/typeorm';
 
-@Component()
+@Injectable()
 export class MeService {
   constructor(
     @InjectRepository(UserEntity)

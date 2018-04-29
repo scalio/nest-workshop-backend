@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import {
-  Component,
+  Injectable,
   Inject,
   NotFoundException,
   UnauthorizedException,
@@ -13,20 +13,19 @@ import { JWT_OPTIONS } from './auth.constants';
 import { JwtOptions } from './interfaces/jwt-options.interface';
 import { LoginUserDto } from './dto/login-user.dto';
 
-@Component()
+@Injectable()
 export class AuthService {
-  constructor( 
+  constructor(
     @Inject(JWT_OPTIONS) private readonly jwtOptions: JwtOptions,
     private readonly cryptoService: CryptoService,
     private readonly usersService: UsersService,
   ) {}
 
   async createToken(loginUserDto: LoginUserDto) {
-    const user = await this.validateLoginUserDto(loginUserDto);
-
-    const { id, username } = user;
+    const { id, username } = await this.validateLoginUserDto(loginUserDto);
     const { expiresIn, secret } = this.jwtOptions;
-    const token = jwt.sign({ id, username } as UserPayload, secret, {
+
+    const token = jwt.sign({ id, username }, secret, {
       expiresIn,
     });
     return {

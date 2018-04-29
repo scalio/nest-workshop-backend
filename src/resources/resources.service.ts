@@ -1,10 +1,10 @@
-import { Component, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ResourceEntity } from './entities/resource.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResourceWithAmount } from './interfaces/resource-with-amount.interface';
 
-@Component()
+@Injectable()
 export class ResourcesService {
   constructor(
     @InjectRepository(ResourceEntity)

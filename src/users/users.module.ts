@@ -15,7 +15,7 @@ import { BuildingsModule } from '../buildings/buildings.module';
     BuildingsModule,
   ],
   controllers: [UsersController, MeController],
-  components: [UsersService, MeService],
+  providers: [UsersService, MeService],
   exports: [UsersService],
 })
 export class UsersModule {}

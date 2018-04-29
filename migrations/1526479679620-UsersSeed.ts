@@ -1,4 +1,4 @@
-/*import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 import { UserEntity } from './../src/users/entities/user.entity';
 import { BuildingEntity } from '../src/buildings/entities/building.entity';
 import { UserResourceEntity } from '../src/users/entities/user-resource.entity';
@@ -13,8 +13,12 @@ export class UsersSeed1526479679620 implements MigrationInterface {
 
     const cryptoService = new CryptoService();
     const usersRepository = connection.getRepository<UserEntity>(UserEntity);
-    const buildingsRepository = connection.getRepository<BuildingEntity>(BuildingEntity);
-    const resourcesRepository = connection.getRepository<ResourceEntity>(ResourceEntity);
+    const buildingsRepository = connection.getRepository<BuildingEntity>(
+      BuildingEntity,
+    );
+    const resourcesRepository = connection.getRepository<ResourceEntity>(
+      ResourceEntity,
+    );
 
     await Promise.all(
       this.users.map(async user => {
@@ -22,15 +26,21 @@ export class UsersSeed1526479679620 implements MigrationInterface {
 
         userEntity.username = user.username;
         userEntity.password = await cryptoService.hash(user.password);
-        userEntity.buildings = user.buildings.map((id) => buildingsRepository.findOneById(id));
-        
-        userEntity.resources = await Promise.all(user.resources.map(async (item) => {
-          const userResource = new UserResourceEntity();
-          userResource.amount = item.amount;
-          userResource.resource = await resourcesRepository.findOneById(item.id);
-          userResource.user = userEntity;
-          return userResource; 
-        })) as any; 
+        userEntity.buildings = user.buildings.map(id =>
+          buildingsRepository.findOne(id),
+        );
+
+        userEntity.resources = (await Promise.all(
+          user.resources.map(async item => {
+            const userResource = new UserResourceEntity();
+            userResource.amount = item.amount;
+            userResource.resource = await resourcesRepository.findOne(
+              item.id,
+            );
+            userResource.user = userEntity;
+            return userResource;
+          }),
+        )) as any;
 
         await usersRepository.save(userEntity);
       }),
@@ -40,10 +50,11 @@ export class UsersSeed1526479679620 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<any> {
     const { connection } = queryRunner;
     const usersRepository = connection.getRepository<UserEntity>(UserEntity);
-    const userResourceRepository = connection.getRepository<UserResourceEntity>(UserResourceEntity);
+    const userResourceRepository = connection.getRepository<UserResourceEntity>(
+      UserResourceEntity,
+    );
 
     await userResourceRepository.clear();
     await usersRepository.clear();
   }
 }
-*/

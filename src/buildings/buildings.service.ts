@@ -1,9 +1,9 @@
-import { Component, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BuildingEntity } from './entities/building.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-@Component()
+@Injectable()
 export class BuildingsService {
   constructor(
     @InjectRepository(BuildingEntity)

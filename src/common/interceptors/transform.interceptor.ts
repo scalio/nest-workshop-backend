@@ -1,16 +1,15 @@
 import { NestInterceptor, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isObject, isArray } from 'lodash';
 import { classToPlain } from 'class-transformer';
 
 export class TransformInterceptor implements NestInterceptor {
   intercept(
-    request,
     context: ExecutionContext,
-    stream$: Observable<any>,
+    call$: Observable<any>,
   ): Observable<any> {
-    return stream$.pipe(
+    return call$.pipe(
       map(res => (isObject(res) ? this.transformResponse(res) : res)),
     );
   }

@@ -13,9 +13,8 @@ export class MeController {
     return user;
   }
 
-  @Post('/buildings')
+  @Post('buildings')
   async buildById(@User() user: UserEntity, @Body() { id }: BuildByIdDto) {
     await this.meService.buildById(user, id);
   }
 }
- 

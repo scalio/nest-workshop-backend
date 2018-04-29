@@ -6,7 +6,7 @@ import { BuildingsController } from './buildings.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([BuildingEntity])],
-  components: [BuildingsService],
+  providers: [BuildingsService],
   controllers: [BuildingsController],
   exports: [BuildingsService],
 })

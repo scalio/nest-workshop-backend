@@ -15,8 +15,7 @@ export class BuildingEntity {
     type => BuildingResourceEntity,
     buildingResource => buildingResource.building,
     {
-      cascadeInsert: true,
-      cascadeUpdate: true,
+      cascade: true,
       eager: true,
     },
   )

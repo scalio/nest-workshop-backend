@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CryptoService } from './crypto.service';
 
 @Module({
-  components: [CryptoService],
+  providers: [CryptoService],
   exports: [CryptoService],
 })
 export class CryptoModule {}

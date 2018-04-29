@@ -5,9 +5,7 @@ import {
   WsResponse,
   OnGatewayConnection,
 } from '@nestjs/websockets';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { interval } from 'rxjs/observable/interval';
+import { Observable, of, interval } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { UserPayload } from '../auth/interfaces/user-payload.interface';
 import { ResourcesService } from './resources.service';

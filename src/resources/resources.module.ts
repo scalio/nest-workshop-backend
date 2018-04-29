@@ -14,6 +14,6 @@ import { UsersModule } from '../users/users.module';
     UsersModule,
   ],
   controllers: [ResourcesController],
-  components: [ResourcesService, ResourcesGateway],
+  providers: [ResourcesService, ResourcesGateway],
 })
 export class ResourcesModule {}

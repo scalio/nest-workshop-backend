@@ -27,8 +27,7 @@ export class UserEntity {
 
   @Transform(mapUserResources)
   @OneToMany(type => UserResourceEntity, userResource => userResource.user, {
-    cascadeInsert: true,
-    cascadeUpdate: true,
+    cascade: true,
     eager: true,
   })
   resources: UserResourceEntity[];

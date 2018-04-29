@@ -1,9 +1,9 @@
-FROM node:boron
+FROM node:8.9.4-alpine
 
 RUN npm install nodemon -g
 
 # Create app directory
-RUN mkdir /usr/src/app
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install app dependencies
@@ -12,11 +12,12 @@ COPY nodemon.json /usr/src/app/
 COPY tsconfig.json /usr/src/app/
 COPY ormconfig.json /usr/src/app/
 
-RUN npm install
+RUN npm install -g -s --no-progress yarn
+RUN yarn install
 
 RUN ls
 
 ENV PORT 3000
-EXPOSE $PORT 8080
+EXPOSE $PORT 8080 9229
 
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "start" ]
