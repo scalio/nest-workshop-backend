@@ -1,4 +1,4 @@
-/*  import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 import { BuildingEntity } from './../src/buildings/entities/building.entity';
 import { BuildingResourceEntity } from '../src/buildings/entities/building-resource.entity';
 import { ResourceEntity } from '../src/resources/entities/resource.entity';
@@ -24,7 +24,7 @@ export class BuildingsSeed1516485315355 implements MigrationInterface {
           building.resources.map(async item => {
             const buildingResource = new BuildingResourceEntity();
             buildingResource.amount = item.amount;
-            buildingResource.resource = await resourcesRepository.findOneById(
+            buildingResource.resource = await resourcesRepository.findOne(
               item.id,
             );
             buildingResource.building = buildingEntity;
@@ -44,4 +44,3 @@ export class BuildingsSeed1516485315355 implements MigrationInterface {
     await buildingsRepository.clear();
   }
 }
-*/

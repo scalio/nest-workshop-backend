@@ -1,4 +1,4 @@
-/*import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 import { ResourceEntity } from './../src/resources/entities/resource.entity';
 
 export class ResourcesSeed1516485308529 implements MigrationInterface {
@@ -6,8 +6,10 @@ export class ResourcesSeed1516485308529 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<any> {
     const { connection } = queryRunner;
-    const resourcesRepository = connection.getRepository<ResourceEntity>(ResourceEntity);
-    
+    const resourcesRepository = connection.getRepository<ResourceEntity>(
+      ResourceEntity,
+    );
+
     await Promise.all(
       this.resources.map(async resource => {
         const resourceEntity = new ResourceEntity();
@@ -19,8 +21,9 @@ export class ResourcesSeed1516485308529 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<any> {
     const { connection } = queryRunner;
-    const resourcesRepository = connection.getRepository<ResourceEntity>(ResourceEntity);
+    const resourcesRepository = connection.getRepository<ResourceEntity>(
+      ResourceEntity,
+    );
     await resourcesRepository.clear();
   }
 }
-*/
